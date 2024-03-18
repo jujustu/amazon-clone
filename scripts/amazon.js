@@ -83,7 +83,7 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
 
     const productId = button.dataset.productId;
 
-   addtocart(productId);
+    addtocart(productId);
 
     updatecart();
 
