@@ -106,8 +106,13 @@ forEach((link) => {
     link.addEventListener('click', () => {
       const productId = link.dataset.productId;
       removeProduct(productId);
-      console.log(cart);
+      const removeitem = document.querySelector(`.js-delete-item-${productId}`);
+    
+      removeitem.remove();
+
     })
+
 })
 
-const removeitem = document.querySelector.`js-delete-container-${productMatching.id}`
+
+
