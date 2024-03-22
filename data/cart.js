@@ -1,13 +1,14 @@
-export let cart = [{
-  productId: '83d4ca15-0f35-48f5-b7a3-1ea210004f2e',
-  quantity: 1,
-},{
-  productId: '54e0eccd-8f36-462b-b68a-8182611d9add',
-  quantity: 1,
-}
-];k
+export let cart = JSON.parse(localStorage.getItem('cart',)) || [];  
 
-export function addtocart(productId){
+
+function saveToStorage(){
+  localStorage.setItem('cart',JSON.stringify(cart))
+}
+
+
+ //function to push the product into the cart when "addtocart" button clicked.
+
+export function addtocart(productId){                  
     let matchingItem;
   
     cart.forEach((item) => {
@@ -24,9 +25,12 @@ export function addtocart(productId){
         quantity: 1,
       });
     }
+    saveToStorage();
   }
 
-  export function removeProduct(productId){
+ //function for removing the product when delete button clicked.
+
+  export function removeProduct(productId){                  
     const newCart = [];
 
     cart.forEach((cartItem)  =>{
@@ -36,7 +40,8 @@ export function addtocart(productId){
     })
 
     cart = newCart;
+
+    saveToStorage();
 }
 
-  
   
