@@ -1,3 +1,16 @@
+//productmatching contain products after matching them with cart productId
+
+export function getProduct(productId){
+  let productMatching =''; 
+
+  products.forEach((productItem) => {
+      if(productItem.id == productId){
+          productMatching = productItem;
+      }
+  })
+  return productMatching;
+}
+
 export const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",

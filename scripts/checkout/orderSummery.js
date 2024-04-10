@@ -1,23 +1,18 @@
 import { cart , removeProduct , updateDeliveryOption} from "../../data/cart.js";
-import { products } from "../../data/products.js";
+import { getProduct} from "../../data/products.js";
 import { formatCurrency } from "../util/money.js";
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
-import { deliveryOptions } from "../../data/deliveryOptions.js";
+import { deliveryOptions, getShipping } from "../../data/deliveryOptions.js";
+import { renderPaymentSummery } from "./paymentSummery.js";
 
 export function renderOrderSummery(){
   let cartHTML = '';
 
   cart.forEach((cartItem) => {
-  
+      
       const productId = cartItem.productId;
-    
-      let productMatching =''; 
-  
-      products.forEach((productItem) => {
-          if(productItem.id == productId){
-              productMatching = productItem;
-          }
-      })
+      const productMatching = getProduct(productId)
+     
   
     cartHTML += `
            <div class="cart-item-container js-delete-item-${productMatching.id}">
@@ -65,14 +60,8 @@ export function renderOrderSummery(){
   
         const deliveryOptionId = cartItem.deliveryId
   
-        let deliveryOption;
+        const deliveryOption = getShipping(deliveryOptionId)
         
-        deliveryOptions.forEach((Options) => {
-           if(Options.id === deliveryOptionId){
-            deliveryOption = Options;
-           }
-        })
-  
         const today = dayjs();
         const deliverydate = today.add(deliveryOption.deliveryDays , 'days');
         const dateString = deliverydate.format('dddd , MMMM D');
@@ -127,7 +116,7 @@ export function renderOrderSummery(){
         removeProduct(productId);
         const removeitem = document.querySelector(`.js-delete-item-${productId}`);
         removeitem.remove();
-  
+        renderPaymentSummery()
       })
   
   })
@@ -138,8 +127,7 @@ export function renderOrderSummery(){
       const {productId, deliveryOptionId} = element.dataset;
       updateDeliveryOption(productId, deliveryOptionId)
       renderOrderSummery()
+      renderPaymentSummery()
     })
-  })
+  })   
 }
-
-renderOrderSummery();
