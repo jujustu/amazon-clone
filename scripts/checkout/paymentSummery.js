@@ -2,19 +2,19 @@ import { cart } from "../../data/cart.js";
 import { getShipping } from "../../data/deliveryOptions.js";
 import { getProduct } from "../../data/products.js";
 import { formatCurrency } from "../util/money.js";
-import { renderOrderSummery } from "./orderSummery.js";
+// import { renderOrderSummery } from "./orderSummery.js";
 
 export function renderPaymentSummery(){
    
  let productPricecents = 0;
  let shippingPricecents = 0;
-
+ let AllcartItem = 0;
     cart.forEach((cartItem) => {
         const product = getProduct(cartItem.productId)
         productPricecents += product.priceCents*cartItem.quantity;
-
         const deliveryOption = getShipping(cartItem.deliveryId)
         shippingPricecents += deliveryOption.priceCents;
+        AllcartItem += cartItem.quantity
     });
    
     const totalBeforeTax = productPricecents + shippingPricecents;
@@ -28,7 +28,7 @@ export function renderPaymentSummery(){
                 </div>
 
                 <div class="payment-summary-row">
-                    <div>Items (3):</div>
+                    <div>Items (${AllcartItem}):</div>
                     <div class="payment-summary-money">$${formatCurrency(productPricecents)}</div>
                 </div>
 
